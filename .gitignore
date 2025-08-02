@@ -1,2 +1,4 @@
+# Ignore secrets.js so API keys are not committed
+secrets.js
 # Secrets file containing API keys
 secrets.js
