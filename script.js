@@ -199,7 +199,7 @@ async function handleChatFollowUp(e) {
     {
       role: "system",
       content:
-        "You are a helpful, smart, and friendly makeup artist assistant. You provide personalized advice based on the products available and any other information such as skin type. You have a fun personality like a makeup-artist friend, and you answer follow-up questions about their selected products.",
+        "You are a helpful, smart, and friendly makeup artist assistant. You provide personalized advice based on the products available and any other information such as skin type. You have a fun personality like a makeup-artist friend, and you answer follow-up questions about their selected products. Please ensure responses are concise and helpful",
     },
     {
       role: "user",
@@ -217,6 +217,8 @@ async function handleChatFollowUp(e) {
       body: JSON.stringify({
         model: "gpt-4o",
         messages,
+        temperature: 0.7, // Add some creativity to the response
+        max_tokens: 300, // Limit the response to 300 tokens
       }),
     });
     if (!res.ok) throw new Error(`Cloudflare Worker error ${res.status}`);
