@@ -11,6 +11,34 @@ const chatInput = document.getElementById("chatInput");
 let selectedProducts = [];
 let lastRoutine = "";
 
+// Helper function to save selected products to localStorage
+function saveSelectedProducts() {
+  localStorage.setItem("selectedProducts", JSON.stringify(selectedProducts));
+}
+
+// Helper function to load selected products from localStorage
+function loadSelectedProducts() {
+  const data = localStorage.getItem("selectedProducts");
+  if (data) {
+    try {
+      selectedProducts = JSON.parse(data);
+    } catch (e) {
+      selectedProducts = [];
+    }
+  }
+}
+
+// Helper function to update the selected products list in the UI
+function renderSelectedProductsList() {
+  selectedProductsList.innerHTML = selectedProducts
+    .map((p) => `<li>${p.text}</li>`)
+    .join("");
+}
+
+// On page load, restore selected products from localStorage
+loadSelectedProducts();
+renderSelectedProductsList();
+
 // Show initial placeholder
 productsContainer.innerHTML = `
   <div class="placeholder-message">
@@ -38,9 +66,12 @@ function displayProducts(products) {
   }
 
   productsContainer.innerHTML = products
-    .map(
-      (product) => `
-      <div class="product-card">
+    .map((product) => {
+      // Check if this product is already selected
+      const text = `${product.name} by ${product.brand}`;
+      const isSelected = selectedProducts.some((p) => p.text === text);
+      return `
+      <div class="product-card${isSelected ? " selected-products" : ""}">
         <img src="${product.image}" alt="${product.name}" />
         <div class="product-info">
           <h3>${product.name}</h3>
@@ -50,8 +81,8 @@ function displayProducts(products) {
           </div>
         </div>
       </div>
-    `
-    )
+    `;
+    })
     .join("");
 }
 
@@ -81,9 +112,8 @@ productsContainer.addEventListener("click", (e) => {
     selectedProducts = selectedProducts.filter((p) => p.text !== text);
   }
 
-  selectedProductsList.innerHTML = selectedProducts
-    .map((p) => `<li>${p.text}</li>`)
-    .join("");
+  renderSelectedProductsList();
+  saveSelectedProducts();
 });
 
 // Click “Generate Routine” → build prompt & call OpenAI
@@ -111,7 +141,7 @@ async function fetchRoutine(productList) {
     {
       role: "system",
       content:
-        "You are a helpful skincare and makeup expert. Only use the products provided by the user to create a step-by-step beauty routine.",
+        "You are a helpful, professional skincare and makeup expert from L'Oreal. Only use the products provided by the user to create a step-by-step beauty routine. If the user needs more information, ask them for details about their skin type, concerns, or preferences. Feel free to suggest other products from the products provided if necessary (i.e. the user should incorporate a step for sunscreen, but they didn't select one). Use emojis to make it fun and engaging.",
     },
     {
       role: "user",
@@ -127,6 +157,8 @@ async function fetchRoutine(productList) {
       body: JSON.stringify({
         model: "gpt-4o",
         messages,
+        max_tokens: 400, // Limit the response to 400 tokens
+        temperature: 0.7, // Add some creativity to the response
       }),
     });
     if (!res.ok) throw new Error(`Cloudflare Worker error ${res.status}`);

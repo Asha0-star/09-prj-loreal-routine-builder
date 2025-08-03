@@ -3,11 +3,12 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: "Helvetica", Arial, sans-serif;
 }
 
 /* —— body + fonts —— */
 body {
-  font-family: "Montserrat", Arial, Helvetica, sans-serif;
+  font-family: "Helvetica", Arial, sans-serif;
   color: #333;
   display: flex;
   justify-content: center;
@@ -23,10 +24,11 @@ body {
   text-align: center;
   padding-top: 50px;
   padding-bottom: 10px;
+  font-weight: 500px;
 }
 
 .logo {
-  width: 250px;
+  width: 350px;
   margin-bottom: 15px;
 }
 
@@ -46,7 +48,7 @@ body {
   width: 100%;
   padding: 16px;
   font-size: 18px;
-  border: 2px solid #000;
+  border: 1.5px solid #000;
   border-radius: 8px;
   cursor: pointer;
   background-color: white;
@@ -61,8 +63,8 @@ body {
 /* chat section */
 .chatbox {
   margin: 40px 0;
-  border: 2px solid #000;
-  border-radius: 8px;
+  border: 1px solid #000;
+  border-radius: 0px;
   padding: 26px;
 }
 
@@ -75,6 +77,10 @@ body {
   padding: 20px;
   font-size: 18px;
   line-height: 1.5;
+  /* Replace solid border with a gradient border using a wrapper and background-clip */
+  border: 3px solid transparent;
+  background: linear-gradient(#fafafa, #fafafa) padding-box,
+    linear-gradient(90deg, #000 0%, #e3a535 100%) border-box;
   height: 250px;
   overflow-y: auto;
   background: #fafafa;
@@ -86,7 +92,7 @@ body {
   width: 100%;
   text-align: center;
   padding: 40px;
-  color: #666;
+  color: #1d1d1d;
   font-size: 18px;
 }
 
@@ -116,6 +122,7 @@ body {
   background: #000;
   color: #fff;
   border: none;
+  border-radius: 50%;
   padding: 12px;
   width: 48px;
   height: 48px;
@@ -127,7 +134,7 @@ body {
 }
 
 .chat-form button:hover {
-  background: #666666;
+  background: #e3a535;
 }
 
 .chat-form button:focus {
@@ -153,7 +160,8 @@ body {
   margin: 60px 0 40px;
   text-align: center;
   font-size: 14px;
-  color: #666;
+  color: #595959;
+  background-color: #000;
 }
 
 .site-footer nav {
@@ -162,12 +170,12 @@ body {
 
 .site-footer a {
   margin: 0 8px;
-  color: #000;
+  color: #f9f9f9;
   text-decoration: none;
 }
 
 .site-footer a:hover {
-  color: #666666;
+  color: #e3a535;
 }
 
 /* products grid */
@@ -233,10 +241,9 @@ body {
 .selected-products {
   margin: 40px 0;
   padding: 20px;
-  border: 2px solid #000;
-  border-radius: 8px;
+  border: 1.5px solid #000;
+  border-radius: 0px;
 }
-
 
 .selected-products h2 {
   font-size: 20px;
@@ -256,7 +263,7 @@ body {
   font-size: 18px;
   font-weight: 500;
   color: #fff;
-  background: #000;
+  background: #e3a535;
   border: none;
   border-radius: 8px;
   cursor: pointer;
